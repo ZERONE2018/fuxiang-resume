@@ -8,11 +8,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-/* ============ TOKENS (design-spec-v3) ============ */
+/* ============ TOKENS (design-spec-v4) ============ */
 :root{
   --color-bg-base:#030712;
   --color-bg-surface:#0a0f1e;
-  --color-bg-card:#0d1117;
   --color-bg-elevated:#111827;
 
   --color-border:rgba(255,255,255,0.06);
@@ -20,7 +19,7 @@
 
   --color-text-primary:#f1f5f9;
   --color-text-secondary:#94a3b8;
-  --color-text-muted:#475569;
+  --color-text-muted:#64748b;
 
   --color-accent:#8b5cf6;
   --color-accent-hover:#a78bfa;
@@ -28,18 +27,14 @@
   --color-accent-soft:rgba(139,92,246,0.12);
 
   --color-cyan:#06b6d4;
-  --color-cyan-glow:rgba(6,182,212,0.2);
+  --color-cyan-soft:rgba(6,182,212,0.14);
 
   --color-success:#10b981;
-  --color-warning:#f59e0b;
-  --color-danger:#ef4444;
 
   --radius-sm:6px;
   --radius-md:10px;
   --radius-lg:16px;
-  --radius-xl:24px;
 
-  --shadow-card:0 4px 24px rgba(0,0,0,0.4);
   --shadow-glow:0 0 30px rgba(139,92,246,0.25);
   --shadow-glow-sm:0 0 12px rgba(139,92,246,0.25);
 
@@ -52,13 +47,13 @@ body{
   font-family:var(--font-sans);
   background:var(--color-bg-base);
   color:var(--color-text-primary);
-  line-height:1.7;
+  line-height:1.75;
   font-size:15px;
   min-height:100vh;
   overflow-x:hidden;
   position:relative;
 }
-/* ============ BACKGROUND DECOR (grid + orbs) ============ */
+/* ============ BACKGROUND DECOR (grid + orbs) — 氛围, 不是框 ============ */
 body::before{
   content:"";
   position:fixed;inset:0;z-index:-2;
@@ -90,7 +85,7 @@ body::after{
 /* ============ LAYOUT ============ */
 .layout{display:grid;grid-template-columns:260px 1fr;gap:0;min-height:100vh}
 main{grid-column:2;max-width:880px;width:100%;margin:0 auto;padding:56px 40px 100px}
-/* ============ SIDEBAR ============ */
+/* ============ SIDEBAR (fixed, 保留 backdrop-filter) ============ */
 .sidebar{
   position:fixed;top:0;left:0;bottom:0;width:260px;z-index:100;
   background:rgba(13,17,23,0.55);
@@ -140,20 +135,20 @@ main{grid-column:2;max-width:880px;width:100%;margin:0 auto;padding:56px 40px 10
 .burger.open span:nth-child(2){opacity:0}
 .burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 .mask{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(2px);z-index:150}
-/* ============ SECTION ============ */
-.section{position:relative;margin-bottom:90px;scroll-margin-top:20px}
+/* ============ SECTION — 开放, 无卡片容器 ============ */
+.section{position:relative;margin-bottom:96px;scroll-margin-top:20px}
 .section-title{
   display:flex;align-items:center;gap:14px;
-  font-size:26px;font-weight:700;letter-spacing:.5px;margin-bottom:30px;
+  font-size:26px;font-weight:700;letter-spacing:.5px;margin-bottom:34px;
 }
 .section-title .idx{
   font-family:var(--font-mono);font-size:16px;color:var(--color-cyan);
-  background:rgba(6,182,212,0.15);border:1px solid rgba(6,182,212,0.3);
+  background:var(--color-cyan-soft);border:1px solid rgba(6,182,212,0.3);
   padding:4px 10px;border-radius:var(--radius-sm);
 }
-/* ============ HERO ============ */
+/* ============ HERO (开放, 无卡片) ============ */
 .hero{
-  padding-top:10px;margin-bottom:90px;position:relative;
+  padding-top:10px;margin-bottom:96px;position:relative;
 }
 .hero-topline{height:1px;width:100%;margin-bottom:40px;background:linear-gradient(90deg,transparent,#8b5cf6,#06b6d4,transparent)}
 .hero h1{
@@ -168,7 +163,7 @@ main{grid-column:2;max-width:880px;width:100%;margin:0 auto;padding:56px 40px 10
   padding:7px 16px;border-radius:999px;font-size:13px;font-weight:600;letter-spacing:.3px;
 }
 .pill-accent{background:var(--color-accent-soft);color:var(--color-accent-hover);border:1px solid var(--color-border-accent)}
-.pill-cyan{background:rgba(6,182,212,0.15);color:var(--color-cyan);border:1px solid rgba(6,182,212,0.3)}
+.pill-cyan{background:var(--color-cyan-soft);color:var(--color-cyan);border:1px solid rgba(6,182,212,0.3)}
 .contact-line{
   display:flex;gap:26px;flex-wrap:wrap;align-items:center;margin-bottom:34px;
   font-family:var(--font-mono);font-size:14px;color:var(--color-text-secondary);
@@ -196,93 +191,78 @@ main{grid-column:2;max-width:880px;width:100%;margin:0 auto;padding:56px 40px 10
 @keyframes shimmer{0%{left:-100%}60%{left:120%}100%{left:120%}}
 .btn-ghost{
   background:transparent;color:var(--color-text-primary);
-  border:1px solid var(--color-border);border-color:rgba(139,92,246,0.4);
+  border:1px solid rgba(139,92,246,0.4);
 }
 .btn-ghost:hover{background:var(--color-accent-soft);transform:translateY(-2px);box-shadow:var(--shadow-glow-sm)}
-/* ============ GLASS CARD ============ */
-.glass{
-  background:rgba(13,17,23,0.6);
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
-  border:1px solid var(--color-border);
-  border-radius:var(--radius-lg);
-  box-shadow:var(--shadow-card);
-  transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease;
+/* ============ PROJECTS — 开放列表, 无卡片网格 ============ */
+.project-list{display:flex;flex-direction:column}
+.project-item{
+  padding:26px 0;
+  border-bottom:1px solid var(--color-border);
 }
-.glass:hover{transform:translateY(-3px);border-color:var(--color-border-accent);box-shadow:var(--shadow-glow)}
-/* ============ STATS ============ */
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
-.stat{
-  text-align:center;padding:28px 16px;position:relative;overflow:hidden;
-}
-.stat::before{
-  content:"";position:absolute;bottom:0;left:20%;right:20%;height:1px;
-  background:linear-gradient(90deg,transparent,#8b5cf6,transparent);opacity:.7;
-}
-.stat .num{
-  font-family:var(--font-mono);font-weight:600;font-size:44px;line-height:1.1;
-  background:linear-gradient(135deg,#a78bfa,#8b5cf6,#06b6d4);
+.project-item:first-child{padding-top:4px}
+.project-item:last-child{border-bottom:none}
+.project-item .p-name{font-size:19px;font-weight:700;display:flex;align-items:center;gap:9px;margin-bottom:8px}
+.project-item .p-name a{color:var(--color-text-primary);text-decoration:none}
+.project-item .p-name a:hover{color:var(--color-accent-hover)}
+.project-item .p-name .grad{
+  background:linear-gradient(120deg,#a78bfa,#8b5cf6 50%,#06b6d4);
   -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-  text-shadow:0 0 30px rgba(139,92,246,0.4);
 }
-.stat .lbl{font-size:13px;color:var(--color-text-secondary);margin-top:8px}
-/* ============ PROJECTS ============ */
-.projects{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
-.project{padding:24px;display:flex;flex-direction:column;position:relative}
-.project.featured{border-color:var(--color-border-accent);box-shadow:0 0 26px rgba(139,92,246,0.18)}
-.project .p-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
-.project .p-name{font-size:18px;font-weight:700;display:flex;align-items:center;gap:8px}
-.project .p-star{
+.p-star{
   font-size:11px;font-weight:600;color:var(--color-accent-hover);
   background:var(--color-accent-soft);border:1px solid var(--color-border-accent);
   padding:2px 8px;border-radius:999px;white-space:nowrap;
 }
-.project .p-desc{font-size:13.5px;color:var(--color-text-secondary);line-height:1.65;flex:1}
-.badges{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
-.badge{font-family:var(--font-mono);font-size:11.5px;padding:4px 11px;border-radius:999px;font-weight:500}
-.badge-info{background:rgba(6,182,212,0.15);color:var(--color-cyan)}
-.badge-accent{background:rgba(139,92,246,0.15);color:var(--color-accent-hover)}
-.badge-success{background:rgba(16,185,129,0.15);color:var(--color-success)}
-.project .p-metric{
-  font-family:var(--font-mono);font-size:13px;color:var(--color-success);
-  background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.25);
-  padding:7px 12px;border-radius:var(--radius-sm);margin-top:auto;
-}
-/* ============ TIMELINE ============ */
-.timeline{position:relative;padding-left:30px}
+.project-item .p-stack{font-family:var(--font-mono);font-size:12.5px;color:var(--color-cyan);margin-bottom:8px}
+.project-item .p-desc{font-size:14px;color:var(--color-text-secondary);line-height:1.7}
+.project-item .p-desc b{color:var(--color-text-primary);font-weight:600}
+.project-item .p-desc .metric{color:var(--color-success);font-weight:600}
+/* ============ TIMELINE — 轻量细线 + 小圆点, 无卡片 ============ */
+.timeline{position:relative;padding-left:26px}
 .timeline::before{
-  content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;
+  content:"";position:absolute;left:5px;top:8px;bottom:8px;width:1px;
   background:linear-gradient(180deg,#8b5cf6,#06b6d4,transparent);
 }
-.t-item{position:relative;margin-bottom:44px}
+.t-item{position:relative;margin-bottom:48px}
 .t-item::before{
-  content:"";position:absolute;left:-30px;top:8px;width:14px;height:14px;border-radius:50%;
-  background:var(--color-accent);border:3px solid #0d1117;
-  box-shadow:0 0 14px rgba(139,92,246,0.7);
+  content:"";position:absolute;left:-26px;top:9px;width:10px;height:10px;border-radius:50%;
+  background:var(--color-accent);box-shadow:0 0 10px var(--color-accent);
 }
-.t-item:last-child::after{content:"";position:absolute;left:-27px;top:22px;bottom:-40px;width:8px;height:8px;border-radius:50%;background:var(--color-cyan);box-shadow:0 0 10px var(--color-cyan);opacity:.5}
-.t-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.t-item:last-child::after{content:"";position:absolute;left:-24px;top:19px;bottom:-40px;width:6px;height:6px;border-radius:50%;background:var(--color-cyan);box-shadow:0 0 8px var(--color-cyan);opacity:.5}
+.t-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px}
 .t-role{font-size:18px;font-weight:700}
 .t-co{color:var(--color-accent-hover);font-weight:600;margin-left:8px}
 .t-date{font-family:var(--font-mono);font-size:13px;color:var(--color-cyan)}
-.t-list{margin:10px 0 0;padding-left:18px;color:var(--color-text-secondary);font-size:14px}
-.t-list li{margin-bottom:5px}
+.t-list{margin:0;padding-left:18px;color:var(--color-text-secondary);font-size:14px}
+.t-list li{margin-bottom:6px}
 .t-list b{color:var(--color-text-primary);font-weight:600}
-.t-highlight{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-.h-tag{font-size:12.5px;padding:5px 12px;border-radius:999px;background:rgba(6,182,212,0.12);color:var(--color-cyan);border:1px solid rgba(6,182,212,0.25)}
-/* ============ SKILLS / CONTACT ============ */
-.skill-group{margin-bottom:22px}
-.skill-group h3{font-size:15px;color:var(--color-text-primary);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.t-perf{color:var(--color-text-secondary);font-size:14px;margin-top:10px;line-height:1.7}
+.t-perf b{color:var(--color-text-primary)}
+.t-perf .metric{color:var(--color-success);font-weight:600}
+.t-perf .drama{color:var(--color-accent-hover);font-weight:600}
+/* ============ SKILLS — 标签保留, 无容器 ============ */
+.skill-group{margin-bottom:30px}
+.skill-group h3{
+  font-size:15px;color:var(--color-text-primary);margin-bottom:14px;
+  display:flex;align-items:center;gap:8px;font-weight:700;
+}
 .skill-group h3::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--color-accent);box-shadow:0 0 8px var(--color-accent)}
-.skill-group .badges{margin:0}
-.contact-card{padding:30px;display:flex;flex-direction:column;gap:20px}
-.contact-methods{display:flex;gap:40px;flex-wrap:wrap}
+.tag{
+  display:inline-block;font-family:var(--font-mono);font-size:12.5px;
+  padding:4px 12px;border-radius:999px;margin:0 8px 10px 0;
+}
+.tag-accent{background:var(--color-accent-soft);color:var(--color-accent-hover)}
+.tag-info{background:var(--color-cyan-soft);color:var(--color-cyan)}
+.tag-success{background:rgba(16,185,129,0.12);color:var(--color-success)}
+/* ============ CONTACT — 开放, 无卡片 ============ */
+.contact-methods{display:flex;gap:44px;flex-wrap:wrap;margin-bottom:30px}
 .c-item{display:flex;flex-direction:column;gap:4px}
 .c-item .c-k{font-size:12px;color:var(--color-text-muted);letter-spacing:.5px}
 .c-item .c-v{font-family:var(--font-mono);font-size:17px;color:var(--color-text-primary)}
-.advantage{display:flex;flex-wrap:wrap;gap:10px}
-.adv{padding:9px 18px;border-radius:999px;font-size:14px;font-weight:500;
-  background:var(--color-accent-soft);color:var(--color-accent-hover);border:1px solid var(--color-border-accent)}
+.advantage{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:30px}
+.adv{padding:8px 16px;border-radius:999px;font-size:13.5px;font-weight:500;
+  background:var(--color-accent-soft);color:var(--color-accent-hover)}
 footer{padding:30px 0 0;border-top:1px solid var(--color-border);color:var(--color-text-muted);font-size:13px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
 footer .mono{font-family:var(--font-mono)}
 /* ============ SCROLL REVEAL ============ */
@@ -300,8 +280,6 @@ footer .mono{font-family:var(--font-mono)}
   .mask.show{display:block}
   main{padding:70px 20px 80px}
   .hero h1{font-size:40px}
-  .stats{grid-template-columns:repeat(2,1fr)}
-  .projects{grid-template-columns:1fr}
 }
 @media(max-width:480px){
   .hero h1{font-size:33px}
@@ -327,12 +305,11 @@ footer .mono{font-family:var(--font-mono)}
     <div class="logo">傅翔 / FU XIANG</div>
     <div class="logo-sub">投放优化师 × 全栈开发者</div>
     <nav class="nav" id="nav">
-      <a href="#hero" class="active"><span class="dot"></span>首页</a>
-      <a href="#stats"><span class="dot"></span>战绩数据</a>
-      <a href="#projects"><span class="dot"></span>项目</a>
-      <a href="#experience"><span class="dot"></span>工作经历</a>
-      <a href="#skills"><span class="dot"></span>技能</a>
-      <a href="#contact"><span class="dot"></span>联系</a>
+      <a href="#hero" class="active"><span class="dot"></span>01 关于</a>
+      <a href="#projects"><span class="dot"></span>02 项目</a>
+      <a href="#experience"><span class="dot"></span>03 经历</a>
+      <a href="#skills"><span class="dot"></span>04 技能</a>
+      <a href="#contact"><span class="dot"></span>05 联系</a>
     </nav>
     <div class="social">
       <div><b>Tel</b> 17623226958</div>
@@ -342,7 +319,7 @@ footer .mono{font-family:var(--font-mono)}
   </aside>
 
   <main>
-    <!-- 1. HERO -->
+    <!-- 01 关于 / HERO -->
     <section class="hero section" id="hero">
       <div class="hero-topline"></div>
       <h1>傅翔</h1>
@@ -362,99 +339,51 @@ footer .mono{font-family:var(--font-mono)}
       </div>
     </section>
 
-    <!-- 2. 战绩数据 -->
-    <section class="section" id="stats">
-      <h2 class="section-title"><span class="idx">01</span>战绩数据</h2>
-      <div class="stats">
-        <div class="stat glass reveal"><div class="num">10W+</div><div class="lbl">单日最高消耗</div></div>
-        <div class="stat glass reveal"><div class="num">90W</div><div class="lbl">月耗最高</div></div>
-        <div class="stat glass reveal"><div class="num">108%</div><div class="lbl">月净利润平均</div></div>
-        <div class="stat glass reveal"><div class="num">6+</div><div class="lbl">自研系统</div></div>
-      </div>
-    </section>
-
-    <!-- 3. 项目 -->
+    <!-- 02 项目 -->
     <section class="section" id="projects">
       <h2 class="section-title"><span class="idx">02</span>项目</h2>
-      <div class="projects">
+      <div class="project-list">
 
-        <div class="project glass featured reveal">
-          <div class="p-head">
-            <div class="p-name">WeVideo Boost 投放中台 <span class="p-star">★ 主力</span></div>
-          </div>
-          <div class="p-desc">从 0 到 1 独立设计开发的视频号加热数据中台：CSV 批量导入 + Chrome 扩展 API 拦截采集、统计汇总、ECharts 仪表盘、钉钉 Webhook 通知、AI 分析、反审预警、飞书文档自动更新。8 大核心指标：消耗 / 变现 / 补贴 / ROI / 播放 / 点赞 / 计划数 / 爱心数。</div>
-          <div class="badges">
-            <span class="badge badge-accent">NestJS</span>
-            <span class="badge badge-accent">Vue3</span>
-            <span class="badge badge-info">Prisma</span>
-            <span class="badge badge-info">SQLite</span>
-            <span class="badge badge-info">ECharts</span>
-          </div>
-          <div class="p-metric">◤ SQL 聚合查询冷启动性能优化 -72%</div>
+        <div class="project-item reveal">
+          <div class="p-name"><a href="#projects" class="grad">WeVideo Boost 投放中台</a><span class="p-star">★ 主力项目</span></div>
+          <div class="p-stack">NestJS · Vue3 · Prisma · SQLite · ECharts</div>
+          <div class="p-desc">从 0 到 1 独立设计开发的视频号加热数据中台：CSV 批量导入 + Chrome 扩展 API 拦截采集、统计汇总、ECharts 仪表盘、钉钉 Webhook 通知、AI 分析、反审预警、飞书文档自动更新。覆盖 8 大核心指标：消耗 / 变现 / 补贴 / ROI / 播放 / 点赞 / 计划数 / 爱心数。<span class="metric">SQL 聚合查询冷启动性能优化 -72%</span>。</div>
         </div>
 
-        <div class="project glass reveal">
-          <div class="p-head"><div class="p-name">量化交易平台</div></div>
-          <div class="p-desc">C++ 核心引擎 + Python 策略层 + React 前端。全周期 K 线、因子研究（vol20 最强，ICIR=0.208）、实盘信号→风控→下单，C++ 多层风控 + ccxt 币圈模块 + 18 个 API 统一交易引擎。</div>
-          <div class="badges">
-            <span class="badge badge-accent">C++</span>
-            <span class="badge badge-accent">Python</span>
-            <span class="badge badge-info">React</span>
-            <span class="badge badge-info">ccxt</span>
-          </div>
-          <div class="p-metric">◤ 风控：单票10% / 总仓95% / 止损-8% / 回撤-15%</div>
+        <div class="project-item reveal">
+          <div class="p-name"><a href="#projects">量化交易平台</a></div>
+          <div class="p-stack">C++ (pybind11) · Python · React · ccxt</div>
+          <div class="p-desc">C++ 核心引擎 + Python 策略层 + React 前端。全周期 K 线、因子研究（<b>vol20 最强，ICIR=0.208</b>）、实盘信号 → 风控 → 下单，C++ 多层风控 + ccxt 币圈模块 + 18 个 API 统一交易引擎。<span class="metric">风控：单票 10% / 总仓 95% / 止损 -8% / 止盈 +20% / 回撤 -15%</span>。</div>
         </div>
 
-        <div class="project glass reveal">
-          <div class="p-head"><div class="p-name">holaOS</div></div>
-          <div class="p-desc">Electron 桌面 AI 客户端，深色主题。预设 MiMo + DeepSeek Provider，Provider 插件化架构，可自由扩展多模型。</div>
-          <div class="badges">
-            <span class="badge badge-accent">Electron</span>
-            <span class="badge badge-info">React</span>
-            <span class="badge badge-info">TypeScript</span>
-          </div>
-          <div class="p-metric">◤ Provider 插件化架构</div>
+        <div class="project-item reveal">
+          <div class="p-name"><a href="#projects">holaOS</a></div>
+          <div class="p-stack">Electron · React · TypeScript</div>
+          <div class="p-desc">深色主题的 Electron 桌面 AI 客户端。预设 MiMo + DeepSeek Provider，Provider 插件化架构，可自由扩展多模型。</div>
         </div>
 
-        <div class="project glass reveal">
-          <div class="p-head"><div class="p-name">Mission Control</div></div>
+        <div class="project-item reveal">
+          <div class="p-name"><a href="#projects">Mission Control</a></div>
+          <div class="p-stack">Node.js · Agent 编排 · 任务调度</div>
           <div class="p-desc">AI Agent 编排平台，任务调度 + 监控面板，已注册 5 个量化 Agent，实现多 Agent 协同编排。</div>
-          <div class="badges">
-            <span class="badge badge-accent">Node.js</span>
-            <span class="badge badge-info">Agent编排</span>
-            <span class="badge badge-info">任务调度</span>
-          </div>
-          <div class="p-metric">◤ 5 个量化 Agent 已注册</div>
         </div>
 
-        <div class="project glass reveal">
-          <div class="p-head"><div class="p-name">FxRemix 自动剪辑引擎</div></div>
+        <div class="project-item reveal">
+          <div class="p-name"><a href="#projects">FxRemix 自动剪辑引擎</a></div>
+          <div class="p-stack">faster-whisper · FFmpeg · Rust · Python</div>
           <div class="p-desc">爆款配方驱动的自动剪辑引擎：字幕转录、智能切片、配方提取/应用、AI 评分（LLM）、BGM 匹配、横转竖、批量处理。</div>
-          <div class="badges">
-            <span class="badge badge-accent">faster-whisper</span>
-            <span class="badge badge-accent">FFmpeg</span>
-            <span class="badge badge-info">Rust</span>
-            <span class="badge badge-info">Python</span>
-          </div>
-          <div class="p-metric">◤ 配方驱动的自动剪辑工作流</div>
         </div>
 
-        <div class="project glass reveal">
-          <div class="p-head"><div class="p-name">数据采集与自动化</div></div>
-          <div class="p-desc">Chrome 扩展 MV3 数据拦截采集（订单→SyncedOrder→HeatingTask），patchright 反检测爬虫、Firecrawl、browser-use、curl-impersonate TLS 指纹，飞书文档 + 钉钉机器人自动化。</div>
-          <div class="badges">
-            <span class="badge badge-accent">MV3</span>
-            <span class="badge badge-info">patchright</span>
-            <span class="badge badge-info">Firecrawl</span>
-            <span class="badge badge-info">lark-cli</span>
-          </div>
-          <div class="p-metric">◤ 订单→数据→通知全链路自动化</div>
+        <div class="project-item reveal">
+          <div class="p-name"><a href="#projects">数据采集与自动化</a></div>
+          <div class="p-stack">Chrome MV3 · patchright · Firecrawl · lark-cli</div>
+          <div class="p-desc">Chrome 扩展 MV3 数据拦截采集（订单 → SyncedOrder → HeatingTask），patchright 反检测爬虫、Firecrawl、browser-use、curl-impersonate TLS 指纹，飞书文档 + 钉钉机器人全链路自动化。</div>
         </div>
 
       </div>
     </section>
 
-    <!-- 4. 经历 -->
+    <!-- 03 经历 -->
     <section class="section" id="experience">
       <h2 class="section-title"><span class="idx">03</span>工作经历</h2>
       <div class="timeline">
@@ -470,16 +399,9 @@ footer .mono{font-family:var(--font-mono)}
             <li>协助剪辑完成素材，提高点击率与转化率；会 PS / PR 滚屏 / 剪映素材制作</li>
             <li>主要分销平台：点众、友和、番茄</li>
           </ul>
-          <div class="t-highlight">
-            <span class="h-tag">单日最高消耗 10W+</span>
-            <span class="h-tag">月耗最高 90W / 平均 60W</span>
-            <span class="h-tag">月净利润平均 108%</span>
-          </div>
-          <div class="t-highlight">
-            <span class="h-tag">第一部起量剧《宦妃还朝》</span>
-            <span class="h-tag">爆量新剧《我的老婆是女武神》破 10W+</span>
-            <span class="h-tag">长时间跑量剧《狂暴少帅》2 个多月</span>
-          </div>
+          <p class="t-perf">
+            业绩：单日最高消耗 <b class="metric">10W+</b>，月耗最高 <b class="metric">90W</b>（平均 60W 左右），月净利润平均 <b class="metric">108%</b>；在职期间从未因个人原因给公司造成亏损。连续多次测出爆款素材，其中第一部起量剧《<span class="drama">宦妃还朝</span>》、第一部单日个人破 10W+ 的爆量新剧《<span class="drama">我的老婆是女武神</span>》、以及跑量长达 2 个多月的《<span class="drama">狂暴少帅</span>》。
+          </p>
         </div>
 
         <div class="t-item reveal">
@@ -498,69 +420,61 @@ footer .mono{font-family:var(--font-mono)}
       </div>
     </section>
 
-    <!-- 5. 技能 -->
+    <!-- 04 技能 -->
     <section class="section" id="skills">
       <h2 class="section-title"><span class="idx">04</span>技能</h2>
       <div class="skill-group">
         <h3>投放技能</h3>
-        <div class="badges">
-          <span class="badge badge-accent">信息流投放(字节/腾讯)</span>
-          <span class="badge badge-accent">素材研究</span>
-          <span class="badge badge-info">数据分析</span>
-          <span class="badge badge-accent">预算分配</span>
-          <span class="badge badge-info">爆款素材挖掘</span>
-          <span class="badge badge-success">短视频剪辑</span>
-        </div>
+        <span class="tag tag-accent">信息流投放(字节/腾讯)</span>
+        <span class="tag tag-accent">素材研究</span>
+        <span class="tag tag-info">数据分析</span>
+        <span class="tag tag-accent">预算分配</span>
+        <span class="tag tag-info">爆款素材挖掘</span>
+        <span class="tag tag-success">短视频剪辑</span>
       </div>
       <div class="skill-group">
         <h3>开发技能</h3>
-        <div class="badges">
-          <span class="badge badge-accent">JavaScript/TypeScript</span>
-          <span class="badge badge-accent">Node.js/NestJS</span>
-          <span class="badge badge-info">Vue3</span>
-          <span class="badge badge-info">React</span>
-          <span class="badge badge-accent">Python</span>
-          <span class="badge badge-info">C++(pybind11)</span>
-          <span class="badge badge-success">SQL/SQLite</span>
-          <span class="badge badge-success">Prisma</span>
-          <span class="badge badge-info">ECharts</span>
-          <span class="badge badge-info">FFmpeg</span>
-          <span class="badge badge-info">Whisper</span>
-          <span class="badge badge-info">Electron</span>
-          <span class="badge badge-success">Git</span>
-        </div>
+        <span class="tag tag-accent">JavaScript/TypeScript</span>
+        <span class="tag tag-accent">Node.js/NestJS</span>
+        <span class="tag tag-info">Vue3</span>
+        <span class="tag tag-info">React</span>
+        <span class="tag tag-accent">Python</span>
+        <span class="tag tag-info">C++(pybind11)</span>
+        <span class="tag tag-success">SQL/SQLite</span>
+        <span class="tag tag-success">Prisma</span>
+        <span class="tag tag-info">ECharts</span>
+        <span class="tag tag-info">FFmpeg</span>
+        <span class="tag tag-info">Whisper</span>
+        <span class="tag tag-info">Electron</span>
+        <span class="tag tag-success">Git</span>
       </div>
       <div class="skill-group">
         <h3>AI / 自动化</h3>
-        <div class="badges">
-          <span class="badge badge-accent">Claude Code 协作开发</span>
-          <span class="badge badge-accent">AI Agent 编排</span>
-          <span class="badge badge-info">大模型 API 集成</span>
-          <span class="badge badge-info">爬虫反检测</span>
-          <span class="badge badge-success">自动化工作流</span>
-        </div>
+        <span class="tag tag-accent">Claude Code 协作开发</span>
+        <span class="tag tag-accent">AI Agent 编排</span>
+        <span class="tag tag-info">大模型 API 集成</span>
+        <span class="tag tag-info">爬虫反检测</span>
+        <span class="tag tag-success">自动化工作流</span>
       </div>
     </section>
 
-    <!-- 6. 联系 -->
+    <!-- 05 联系 -->
     <section class="section" id="contact">
       <h2 class="section-title"><span class="idx">05</span>联系我</h2>
-      <div class="contact-card glass reveal">
-        <div class="contact-methods">
-          <div class="c-item"><span class="c-k">电话 TEL</span><span class="c-v">17623226958</span></div>
-          <div class="c-item"><span class="c-k">邮箱 MAIL</span><span class="c-v">925657722@qq.com</span></div>
-          <div class="c-item"><span class="c-k">所在地 BASE</span><span class="c-v">深圳</span></div>
-        </div>
-        <div class="advantage">
-          <span class="adv">抗压能力强</span>
-          <span class="adv">责任担当</span>
-          <span class="adv">乐于学习</span>
-          <span class="adv">善于沟通</span>
-        </div>
-        <div class="hero-cta">
-          <a href="tel:17623226958" class="btn btn-primary">立即联系</a>
-          <a href="mailto:925657722@qq.com" class="btn btn-ghost">发送邮件</a>
-        </div>
+      <div class="contact-methods reveal">
+        <div class="c-item"><span class="c-k">电话 TEL</span><span class="c-v">17623226958</span></div>
+        <div class="c-item"><span class="c-k">邮箱 MAIL</span><span class="c-v">925657722@qq.com</span></div>
+        <div class="c-item"><span class="c-k">所在地 BASE</span><span class="c-v">深圳</span></div>
+      </div>
+      <div class="advantage reveal">
+        <span class="adv">抗压能力强</span>
+        <span class="adv">责任担当</span>
+        <span class="adv">乐于学习</span>
+        <span class="adv">善于沟通</span>
+      </div>
+      <div class="hero-cta reveal">
+        <a href="tel:17623226958" class="btn btn-primary">立即联系</a>
+        <a href="mailto:925657722@qq.com" class="btn btn-ghost">发送邮件</a>
       </div>
     </section>
 
