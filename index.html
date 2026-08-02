@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>傅翔 · 投放优化师 × 全栈开发者</title>
+<meta name="description" content="傅翔 — 投放优化师 × 全栈开发者，懂投放的开发者，会开发的投资优化师。投放背景 + 自研技术项目双线。" />
+<style>
+/* ============ 设计变量 ============ */
+:root{
+  --bg:#0b0f17;
+  --bg-2:#0f1522;
+  --panel:#141b2c;
+  --panel-2:#1a2235;
+  --border:#232d45;
+  --border-glow:rgba(88,166,255,.35);
+  --text:#e8edf7;
+  --text-dim:#9aa6c0;
+  --text-faint:#6b7691;
+  --accent:#5aa2ff;
+  --accent-2:#22d3c4;
+  --accent-3:#ffb454;
+  --purple:#9d7bff;
+  --pink:#ff6b9d;
+  --red:#ff6b6b;
+  --green:#3ddc84;
+  --grad:linear-gradient(120deg,#5aa2ff 0%,#22d3c4 100%);
+  --grad-2:linear-gradient(120deg,#9d7bff,#ff6b9d);
+  --shadow:0 8px 30px rgba(0,0,0,.5);
+  --shadow-lg:0 18px 50px rgba(0,0,0,.6);
+  --glow:0 0 24px rgba(90,162,255,.18);
+  --radius:14px;
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:24px}
+body{
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.7;
+  letter-spacing:.2px;
+  background-image:
+    radial-gradient(900px 500px at 85% -10%,rgba(90,162,255,.10),transparent 60%),
+    radial-gradient(700px 480px at 5% 0%,rgba(34,211,196,.08),transparent 55%);
+  background-attachment:fixed;
+}
+a{color:var(--accent);text-decoration:none;transition:.2s}
+a:hover{color:#fff;text-shadow:0 0 12px rgba(90,162,255,.6)}
+::selection{background:rgba(90,162,255,.35)}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--panel-2);border-radius:6px;border:2px solid var(--bg)}
+::-webkit-scrollbar-thumb:hover{background:var(--accent)}
+
+/* ============ 侧边栏 (fixed) ============ */
+.sidebar{
+  position:fixed;top:0;left:0;bottom:0;
+  width:230px;padding:28px 22px;overflow-y:auto;
+  background:linear-gradient(180deg,rgba(20,27,44,.95),rgba(11,15,23,.98));
+  border-right:1px solid var(--border);
+  backdrop-filter:blur(6px);
+  z-index:100;
+}
+.sb-brand{
+  font-size:20px;font-weight:800;letter-spacing:.5px;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;
+  margin-bottom:6px;
+}
+.sb-sub{font-size:12px;color:var(--text-faint);margin-bottom:22px}
+.nav{display:flex;flex-direction:column;gap:4px}
+.nav a{
+  display:flex;align-items:center;gap:10px;
+  color:var(--text-dim);font-size:14px;
+  padding:9px 12px;border-radius:10px;transition:.2s;
+  border:1px solid transparent;
+}
+.nav a i{font-style:normal;width:16px;text-align:center;opacity:.8}
+.nav a:hover{color:#fff;background:var(--panel-2);transform:translateX(3px)}
+.nav a.active{
+  color:#fff;background:var(--panel-2);
+  border-color:var(--border-glow);
+  box-shadow:var(--glow),inset 0 0 0 1px rgba(90,162,255,.15);
+}
+.sb-foot{margin-top:26px;font-size:11px;color:var(--text-faint);line-height:1.8}
+
+/* ============ 主内容区 ============ */
+.main{margin-left:230px}
+.wrap{max-width:880px;margin:0 auto;padding:30px 34px 90px}
+section{margin-bottom:34px}
+
+/* ============ Hero ============ */
+.hero{
+  position:relative;padding:44px 40px 38px;
+  border-radius:var(--radius);
+  background:
+    linear-gradient(135deg,rgba(90,162,255,.12),rgba(34,211,196,.05) 55%,rgba(20,27,44,.4));
+  border:1px solid var(--border);
+  overflow:hidden;
+  box-shadow:var(--shadow),var(--glow);
+}
+.hero::before{
+  content:"";position:absolute;top:-120px;right:-80px;width:360px;height:360px;
+  background:radial-gradient(circle,rgba(90,162,255,.18),transparent 65%);
+  pointer-events:none;
+}
+.hero::after{
+  content:"";position:absolute;bottom:-140px;left:-60px;width:300px;height:300px;
+  background:radial-gradient(circle,rgba(34,211,196,.12),transparent 65%);
+  pointer-events:none;
+}
+.hero-inner{position:relative;z-index:2}
+.hero h1{font-size:44px;font-weight:800;letter-spacing:1px;line-height:1.15}
+.hero h1 .en{font-size:22px;font-weight:500;color:var(--text-dim);display:block;margin-top:6px}
+.tagline{
+  margin-top:18px;font-size:20px;font-weight:700;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;
+  display:inline-block;
+}
+.hero-meta{
+  display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:22px;
+  font-size:13px;color:var(--text-dim);
+}
+.hero-meta span{display:inline-flex;align-items:center;gap:7px}
+.hero-meta i{font-style:normal;color:var(--accent)}
+.cta{margin-top:26px;display:flex;flex-wrap:wrap;gap:12px}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:11px 20px;border-radius:11px;font-size:14px;font-weight:600;
+  cursor:pointer;transition:.25s;border:1px solid transparent;
+}
+.btn.primary{background:var(--grad);color:#0b0f17}
+.btn.primary:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(90,162,255,.4);filter:brightness(1.08)}
+.btn.ghost{background:var(--panel-2);border-color:var(--border);color:var(--text)}
+.btn.ghost:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:var(--glow)}
+
+/* ============ 通用卡片 ============ */
+.section-title{
+  display:flex;align-items:center;gap:12px;margin-bottom:18px;
+  font-size:22px;font-weight:800;letter-spacing:.5px;
+}
+.section-title .num{
+  font-size:13px;font-weight:700;color:var(--bg);
+  background:var(--grad);border-radius:8px;padding:3px 9px;
+  box-shadow:var(--glow);
+}
+.section-title::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent)}
+.section-title small{font-size:12px;font-weight:500;color:var(--text-faint)}
+
+.card{
+  background:linear-gradient(180deg,var(--panel),var(--panel-2));
+  border:1px solid var(--border);border-radius:var(--radius);
+  padding:22px 24px;margin-bottom:16px;
+  box-shadow:var(--shadow);
+  transition:transform .25s ease,box-shadow .25s ease,border-color .25s;
+}
+.card:hover{
+  transform:translateY(-4px);
+  border-color:var(--border-glow);
+  box-shadow:var(--shadow-lg),var(--glow);
+}
+.card h3{font-size:18px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.card .period{
+  font-size:12px;font-weight:600;color:var(--accent);
+  background:rgba(90,162,255,.12);border:1px solid rgba(90,162,255,.25);
+  padding:2px 10px;border-radius:20px;white-space:nowrap;
+}
+.card .company{color:var(--accent-2);font-weight:600}
+ul{list-style:none;margin-top:10px}
+ul li{position:relative;padding-left:18px;margin-bottom:7px;font-size:14px;color:var(--text-dim)}
+ul li::before{content:"";position:absolute;left:2px;top:11px;width:6px;height:6px;border-radius:50%;background:var(--grad)}
+ul li strong{color:var(--text)}
+
+/* 业绩高亮 */
+.highlights{
+  margin-top:14px;padding:14px 16px;border-radius:10px;
+  background:rgba(34,211,196,.06);border-left:3px solid var(--accent-2);
+}
+.highlights .hl-title{font-size:13px;font-weight:700;color:var(--accent-2);margin-bottom:8px}
+.highlights ul li::before{background:var(--accent-2)}
+.highlight-big{
+  display:flex;flex-wrap:wrap;gap:10px;margin:12px 0;
+}
+.hb{
+  flex:1;min-width:130px;text-align:center;padding:14px 10px;border-radius:12px;
+  background:var(--panel-2);border:1px solid var(--border);
+  transition:.25s;
+}
+.hb:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:var(--glow)}
+.hb .v{font-size:24px;font-weight:800;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hb .l{font-size:11px;color:var(--text-faint);margin-top:3px}
+
+/* ============ 项目 ============ */
+.proj{border-left:2px solid transparent;position:relative}
+.proj:hover{border-left-color:var(--accent)}
+.proj .star{color:var(--accent-3);text-shadow:0 0 10px rgba(255,180,84,.6)}
+.stack{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 4px}
+.pill{
+  font-size:12px;font-weight:600;color:var(--accent);
+  background:rgba(90,162,255,.1);border:1px solid rgba(90,162,255,.22);
+  padding:2px 10px;border-radius:20px;transition:.2s;
+}
+.pill:hover{background:rgba(90,162,255,.2);transform:translateY(-1px)}
+.value{
+  margin-top:10px;font-size:13px;color:var(--green);
+  display:inline-flex;align-items:center;gap:6px;
+}
+
+/* ============ 技能 ============ */
+.skills-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.skill-card{
+  background:linear-gradient(180deg,var(--panel),var(--panel-2));
+  border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;
+  box-shadow:var(--shadow);transition:.25s;
+}
+.skill-card:hover{transform:translateY(-4px);border-color:var(--border-glow);box-shadow:var(--shadow-lg),var(--glow)}
+.skill-card h4{font-size:15px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.skill-card h4 i{font-style:normal}
+.tags{display:flex;flex-wrap:wrap;gap:8px}
+.tag{
+  font-size:12px;color:var(--text-dim);background:var(--bg-2);
+  border:1px solid var(--border);border-radius:8px;padding:4px 10px;transition:.2s;
+}
+.tag:hover{color:#fff;border-color:var(--accent);box-shadow:var(--glow);transform:translateY(-2px)}
+
+/* ============ 个人优势 ============ */
+.advantages{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.adv{
+  display:flex;gap:12px;align-items:flex-start;padding:16px 18px;
+  background:var(--panel);border:1px solid var(--border);border-radius:12px;transition:.25s;
+}
+.adv:hover{transform:translateY(-3px);border-color:var(--purple);box-shadow:0 0 24px rgba(157,123,255,.2)}
+.adv .dot{
+  flex-shrink:0;width:34px;height:34px;border-radius:10px;
+  background:var(--grad-2);display:flex;align-items:center;justify-content:center;
+  font-size:16px;box-shadow:0 4px 14px rgba(157,123,255,.35);
+}
+.adv p{font-size:13px;color:var(--text-dim)}
+
+/* ============ 页脚 ============ */
+footer{
+  margin-top:10px;padding-top:24px;border-top:1px solid var(--border);
+  text-align:center;color:var(--text-faint);font-size:12px;
+}
+footer a{color:var(--accent)}
+
+/* ============ 汉堡 (移动端) ============ */
+.hamburger{
+  display:none;position:fixed;top:14px;left:14px;z-index:200;
+  width:42px;height:42px;border-radius:10px;
+  background:var(--panel-2);border:1px solid var(--border);
+  color:var(--text);font-size:20px;cursor:pointer;
+  box-shadow:var(--shadow);align-items:center;justify-content:center;
+}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:90;backdrop-filter:blur(2px)}
+
+/* ============ 响应式 ============ */
+@media(max-width:1024px){
+  .sidebar{width:200px}
+  .main{margin-left:200px}
+}
+@media(max-width:820px){
+  .hamburger{display:flex}
+  .sidebar{
+    transform:translateX(-100%);width:240px;transition:transform .3s ease;
+    box-shadow:var(--shadow-lg);
+  }
+  .sidebar.open{transform:translateX(0)}
+  .overlay.show{display:block}
+  .main{margin-left:0}
+  .wrap{padding:76px 18px 70px}
+  .hero{padding:32px 24px 30px}
+  .hero h1{font-size:32px}
+  .hero h1 .en{font-size:17px}
+  .skills-grid,.advantages{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  .hero h1{font-size:27px}
+  .tagline{font-size:17px}
+  .wrap{padding:72px 14px 60px}
+  .card{padding:18px 16px}
+  .section-title{font-size:19px}
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" id="hamburger" aria-label="菜单">☰</button>
+<div class="overlay" id="overlay"></div>
+
+<!-- 侧边栏 -->
+<aside class="sidebar" id="sidebar">
+  <div class="sb-brand">傅翔</div>
+  <div class="sb-sub">FU XIANG</div>
+  <nav class="nav">
+    <a href="#home" class="active"><i>⌂</i>首页</a>
+    <a href="#experience"><i>◈</i>投放背景</a>
+    <a href="#projects"><i>⚙</i>技术项目</a>
+    <a href="#skills"><i>✦</i>技能标签</a>
+    <a href="#advantages"><i>☀</i>个人优势</a>
+    <a href="#contact"><i>✉</i>联系方式</a>
+  </nav>
+  <div class="sb-foot">懂投放的开发者<br>会开发的投资优化师</div>
+</aside>
+
+<!-- 主内容 -->
+<main class="main">
+  <div class="wrap">
+
+    <!-- Hero -->
+    <section id="home" class="hero">
+      <div class="hero-inner">
+        <h1>傅翔<span class="en">Fu Xiang</span></h1>
+        <div class="tagline">投放优化师 × 全栈开发者</div>
+        <p style="margin-top:12px;color:var(--text-dim);font-size:15px">
+          懂投放的开发者，会开发的投资优化师
+        </p>
+        <div class="hero-meta">
+          <span><i>◎</i>男 · 江西赣州</span>
+          <span><i>◉</i>专科 · 郑州工程技术学院（国际经济与贸易）</span>
+          <span><i>✦</i>现居深圳</span>
+        </div>
+        <div class="cta">
+          <a href="#projects" class="btn primary">查看技术项目</a>
+          <a href="#experience" class="btn ghost">投放经历</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 投放背景 -->
+    <section id="experience">
+      <div class="section-title"><span class="num">01</span>投放背景<small>广告投放 · 数据分析 · 素材研究</small></div>
+
+      <div class="card">
+        <h3>投放优化师 <span class="company">· 深圳冷哥传媒有限公司</span><span class="period">2023.07 - 2024.04</span></h3>
+        <ul>
+          <li>负责产品在信息流渠道（<strong>字节和腾讯</strong>）的广告投放：投放策略、账户搭建、素材研究、预算分配、优化投放效果</li>
+          <li>监控广告投放效果，分析投放数据，结合后台数据对策略动态调整并报备</li>
+          <li>协助剪辑师完成素材剪辑，提高广告投放的点击率和转化率</li>
+          <li>会简单的 PS 作图 / PR 滚屏制作 / 剪映素材制作</li>
+          <li>主要接触的分销平台：<strong>点众、友和、番茄</strong></li>
+        </ul>
+        <div class="highlight-big">
+          <div class="hb"><div class="v">10W+</div><div class="l">单日最高消耗</div></div>
+          <div class="hb"><div class="v">90W</div><div class="l">月耗最高</div></div>
+          <div class="hb"><div class="v">60W</div><div class="l">平均月耗</div></div>
+          <div class="hb"><div class="v">108%</div><div class="l">月平均净利润</div></div>
+        </div>
+        <div class="highlights">
+          <div class="hl-title">业绩亮点</div>
+          <ul>
+            <li>在职期间从未因个人原因给公司造成任何亏损</li>
+            <li>连续多次测出爆款素材：
+              <ul>
+                <li>第一部起量剧《宦妃还朝》</li>
+                <li>第一部当日个人破 10w+ 的爆量新剧《我的老婆是女武神》</li>
+                <li>第一部长时间跑量的剧《狂暴少帅》（跑量时长 2 个多月）</li>
+              </ul>
+            </li>
+            <li>寻找竞品研究素材特点，给剪辑提供方向，协助剪辑</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>运营专员 <span class="company">· 深圳信银企业服务有限公司</span><span class="period">2022.06 - 2023.06</span></h3>
+        <ul>
+          <li>与合作方制定相关的运营计划及目标</li>
+          <li>与设计沟通商家需求，跟踪设计进度</li>
+          <li>完成线上店铺的搭建及优化</li>
+          <li>日常数据的反馈及异常变动的分析</li>
+          <li>根据商圈的特点结合门店的预算投放广告</li>
+          <li>每个月的复盘，月计划的更新调整</li>
+          <li>结合经营数据和竞对数据给商家建议</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 技术项目 -->
+    <section id="projects">
+      <div class="section-title"><span class="num">02</span>技术项目<small>自研 · 真实项目</small></div>
+
+      <div class="card proj">
+        <h3>WeVideo Boost 投放中台 <span class="star">★</span><span class="period">主力项目</span></h3>
+        <div class="stack">
+          <span class="pill">NestJS</span><span class="pill">Vue3</span><span class="pill">Prisma</span><span class="pill">SQLite</span><span class="pill">ECharts</span>
+        </div>
+        <ul>
+          <li>微信视频号加热数据采集（CSV批量导入 + Chrome扩展API拦截）</li>
+          <li>统计汇总（运营人员 / 剧目 / 账号维度）</li>
+          <li>ECharts 仪表盘（趋势图 / TOP排行）</li>
+          <li>钉钉 Webhook 通知（加签签名）、AI 分析模块、反审预警、飞书文档自动更新</li>
+        </ul>
+        <p style="margin-top:10px;font-size:13px;color:var(--text-dim)">8 个核心指标：消耗、变现金额、补贴金额、回收ROI、播放量、点赞量、计划数、爱心数</p>
+        <div class="value">✓ 从 0 到 1 独立设计开发，SQL 聚合查询冷启动性能优化 -72%</div>
+      </div>
+
+      <div class="card proj">
+        <h3>量化交易平台</h3>
+        <div class="stack">
+          <span class="pill">C++</span><span class="pill">pybind11</span><span class="pill">Python</span><span class="pill">React</span><span class="pill">ccxt</span>
+        </div>
+        <ul>
+          <li>C++ 核心引擎（pybind11）+ Python 策略层 + React 前端（Hermes Teal 主题）</li>
+          <li>全周期K线（m1-m60+日周月）、因子研究（vol20 最强 ICIR=0.208）</li>
+          <li>实盘模块（broker.py Mock+Easytrader+EastMoney）、live_engine.py 信号→风控→下单</li>
+          <li>C++ 风控：check_position_limit / check_drawdown / check_total_exposure</li>
+        </ul>
+        <p style="margin-top:10px;font-size:13px;color:var(--text-dim)">新增：ccxt 币圈模块 + 统一交易引擎（18个API）</p>
+        <p style="margin-top:6px;font-size:13px;color:var(--text-dim)">风控参数：单票10% / 总仓95% / 止损-8% / 止盈+20% / 回撤-15%</p>
+      </div>
+
+      <div class="card proj">
+        <h3>holaOS — Electron 桌面应用</h3>
+        <div class="stack"><span class="pill">Electron</span><span class="pill">React</span><span class="pill">深色主题</span></div>
+        <ul>
+          <li>AI 桌面客户端，预设 MiMo + DeepSeek Provider</li>
+          <li>Provider 插件化架构</li>
+        </ul>
+      </div>
+
+      <div class="card proj">
+        <h3>Mission Control — AI Agent 编排平台</h3>
+        <div class="stack"><span class="pill">Node.js</span><span class="pill">监控面板</span></div>
+        <ul>
+          <li>Agent 编排、任务调度、监控面板，已注册 5 个量化 Agent</li>
+        </ul>
+      </div>
+
+      <div class="card proj">
+        <h3>FxRemix — 爆款配方驱动的自动剪辑引擎</h3>
+        <div class="stack">
+          <span class="pill">faster-whisper</span><span class="pill">FFmpeg</span><span class="pill">Rust</span><span class="pill">Python</span>
+        </div>
+        <ul>
+          <li>字幕转录、智能切片、配方提取/应用、AI评分（LLM）、BGM匹配、横转竖、批量处理</li>
+        </ul>
+      </div>
+
+      <div class="card proj">
+        <h3>数据采集与自动化</h3>
+        <div class="stack">
+          <span class="pill">Chrome扩展</span><span class="pill">MV3</span><span class="pill">patchright</span><span class="pill">Firecrawl</span><span class="pill">browser-use</span><span class="pill">lark-cli</span>
+        </div>
+        <ul>
+          <li>Chrome 扩展数据拦截采集（MV3）：抓取订单 → SyncedOrder → HeatingTask</li>
+          <li>爬虫体系：patchright 反检测浏览器、Firecrawl、browser-use、curl-impersonate（TLS指纹）</li>
+          <li>飞书文档自动化（lark-cli）、钉钉机器人通知</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 技能标签 -->
+    <section id="skills">
+      <div class="section-title"><span class="num">03</span>技能标签</div>
+      <div class="skills-grid">
+        <div class="skill-card">
+          <h4><i>📣</i>投放技能</h4>
+          <div class="tags">
+            <span class="tag">信息流投放(字节/腾讯)</span>
+            <span class="tag">素材研究</span>
+            <span class="tag">数据分析</span>
+            <span class="tag">预算分配</span>
+            <span class="tag">爆款素材挖掘</span>
+            <span class="tag">短视频剪辑(剪映/PR/PS)</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <h4><i>💻</i>开发技能</h4>
+          <div class="tags">
+            <span class="tag">JavaScript/TypeScript</span>
+            <span class="tag">Node.js/NestJS</span>
+            <span class="tag">Vue3</span>
+            <span class="tag">React</span>
+            <span class="tag">Python</span>
+            <span class="tag">C++(pybind11)</span>
+            <span class="tag">SQL/SQLite</span>
+            <span class="tag">Prisma</span>
+            <span class="tag">ECharts</span>
+            <span class="tag">FFmpeg</span>
+            <span class="tag">Whisper</span>
+            <span class="tag">Electron</span>
+            <span class="tag">Git</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <h4><i>🤖</i>AI/自动化</h4>
+          <div class="tags">
+            <span class="tag">Claude Code 协作开发</span>
+            <span class="tag">AI Agent 编排</span>
+            <span class="tag">大模型API集成</span>
+            <span class="tag">爬虫反检测</span>
+            <span class="tag">自动化工作流</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <h4><i>🎯</i>个人优势</h4>
+          <div class="tags">
+            <span class="tag">抗压能力强</span>
+            <span class="tag">责任与义务分明</span>
+            <span class="tag">乐于学习</span>
+            <span class="tag">善于沟通协作</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 个人优势 -->
+    <section id="advantages">
+      <div class="section-title"><span class="num">04</span>个人优势</div>
+      <div class="advantages">
+        <div class="adv"><div class="dot">💪</div><p>抗压能力强，能适应高强度工作</p></div>
+        <div class="adv"><div class="dot">✓</div><p>能够有效的区分责任与义务，不逃避责任，爱岗敬业</p></div>
+        <div class="adv"><div class="dot">✦</div><p>乐于学习，爱挑战，喜欢新鲜事物</p></div>
+        <div class="adv"><div class="dot">🤝</div><p>有良好的沟通表达能力和团队合作精神</p></div>
+      </div>
+    </section>
+
+    <!-- 联系方式 -->
+    <section id="contact">
+      <div class="section-title"><span class="num">05</span>联系方式</div>
+      <div class="card" style="display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;align-items:center">
+        <div class="hero-meta" style="margin:0">
+          <span><i>☏</i>17623226958</span>
+          <span><i>✉</i>925657722@qq.com</span>
+          <span><i>⌖</i>现居深圳</span>
+        </div>
+        <a class="btn primary" href="mailto:925657722@qq.com" style="margin-top:0">邮件联系</a>
+      </div>
+      <footer>
+        © 2024 傅翔 · 投放优化师 × 全栈开发者 · 简历网站
+      </footer>
+    </section>
+
+  </div>
+</main>
+
+<script>
+(function(){
+  var hamburger=document.getElementById('hamburger');
+  var sidebar=document.getElementById('sidebar');
+  var overlay=document.getElementById('overlay');
+  function close(){sidebar.classList.remove('open');overlay.classList.remove('show')}
+  hamburger.addEventListener('click',function(){
+    sidebar.classList.toggle('open');overlay.classList.toggle('show');
+  });
+  overlay.addEventListener('click',close);
+  document.querySelectorAll('.nav a').forEach(function(a){
+    a.addEventListener('click',function(){ if(window.innerWidth<=820) close(); });
+  });
+
+  // 滚动高亮导航 + 平滑
+  var links=document.querySelectorAll('.nav a');
+  var sections=[].map.call(links,function(l){return document.querySelector(l.getAttribute('href'))});
+  function onScroll(){
+    var pos=window.scrollY+120;
+    var idx=sections.length-1;
+    sections.forEach(function(s,i){ if(s&&s.offsetTop<=pos) idx=i; });
+    links.forEach(function(l,i){ l.classList.toggle('active',i===idx); });
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  onScroll();
+
+  // 滚动进入动画
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting){
+          e.target.style.opacity='1';
+          e.target.style.transform='translateY(0)';
+          io.unobserve(e.target);
+        }
+      });
+    },{threshold:.12});
+    document.querySelectorAll('.card,.skill-card,.adv,.hb').forEach(function(el){
+      el.style.opacity='0';el.style.transform='translateY(18px)';
+      el.style.transition='opacity .6s ease,transform .6s ease';
+      io.observe(el);
+    });
+  }
+})();
+</script>
+</body>
+</html>
